@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:matemaatik/Lahutamine1-10.dart';
-import 'package:matemaatik/Lahutamine1-100.dart';
-import 'package:matemaatik/Lahutamine1-1000.dart';
-import 'package:matemaatik/Lahutamine1-20.dart';
-import 'package:matemaatik/Liitmine1-10.dart';
-// import 'package:matemaatik/Liitmine1-100.dart';
-// import 'package:matemaatik/Liitmine1-1000.dart';
-// import 'package:matemaatik/Liitmine1-20.dart';
-// import 'package:matemaatik/Liitmine1-30.dart';
-// import 'package:matemaatik/Liitmine1-50.dart';
-// import 'package:matemaatik/Liitmine1-500.dart';
+import 'package:matemaatik/substraction.dart';
+import 'package:matemaatik/addition.dart';
 
-const additionOptions = ['1 - 10', '1 - 20',  '1 - 30', '1 - 50', '1 - 100', '1 -500', '1 - 1000'];
+const additionOptions = ['1 - 10', '1 - 20',  '1 - 30', '1 - 50', '1 - 100', '1 - 500', '1 - 1000'];
 
 //TODO PAGE NAVGATION CORRECTION!!!!!
-const additionPages = [PageFive(limit:5), PageFive(limit:10), PageFive(limit:15), PageFive(limit:25)];
-const substractionPages = [PageNine(), PageTen(), PageEleven(), PageTwelve()];
+const additionPages = [Addition(limit:5), Addition(limit:10), Addition(limit:15), Addition(limit:25), Addition(limit:50), Addition(limit:250), Addition(limit:500)];
+const substractionPages = [Subtraction(limit:5), Subtraction(limit:10), Subtraction(limit:15), Subtraction(limit:25), Subtraction(limit:50), Subtraction(limit:250), Subtraction(limit:500)];
 
 
-class PageOne extends StatelessWidget {
+class PlusMinus extends StatelessWidget {
   final bool addition;
-  const PageOne({Key? key, required this.addition}) : super(key: key);
+  const PlusMinus({Key? key, required this.addition}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

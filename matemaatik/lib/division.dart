@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:matemaatik/home_screen.dart';
+import 'package:matemaatik/multibly_division.dart';
 import 'dart:math';
-import 'package:matemaatik/Liitmine.dart';
-import 'package:matemaatik/main.dart';
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: PageThirdysix(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-class PageThirdysix extends StatefulWidget {
-  const PageThirdysix({Key? key}) : super(key: key);
+import 'package:matemaatik/quiz_selection.dart';
+class Division extends StatefulWidget {
+  final int limit;
+  const Division({Key? key, required this.limit}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +13,7 @@ class PageThirdysix extends StatefulWidget {
   }
 }
 
-class _MyAppState extends State<PageThirdysix> {
+class _MyAppState extends State<Division> {
   List<Map<String, Object>> _questions = [];
   var _questionIndex = 0;
   var _totalScore = 0;
@@ -47,9 +37,9 @@ List<Map<String, Object>> _generateQuestions() {
   List<Map<String, Object>> questions = [];
 
   for (int i = 1; i <= 10; i++) {
-    int divisor = Random().nextInt(5) + 1; // Add 1 to ensure non-zero values
-    int answer = Random().nextInt(5) + 1; // Add 1 to ensure non-zero values
-    int dividend = divisor * answer;;
+    int divisor = widget.limit; // Add 1 to ensure non-zero values
+    int answer = Random().nextInt(10) + 1; // Add 1 to ensure non-zero values
+    int dividend = divisor * answer;
 
     List<Map<String, Object>> options = [
       {'text': (answer - 1).toString(), 'score': 0},
@@ -110,7 +100,7 @@ List<Map<String, Object>> _generateQuestions() {
                 questionIndex: _questionIndex,
                 questions: _questions,
               )
-            : Result(_totalScore, _resetQuiz),
+            : Result(_totalScore, _resetQuiz, widget.limit),
       ),
     );
   }
@@ -154,7 +144,7 @@ class Question extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.all(65),
+      margin: const EdgeInsets.all(40),
       child: Text(
         questionText,
         style: const TextStyle(fontSize: 28),
@@ -172,15 +162,18 @@ class Answer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () => selectHandler(),
-        style: ButtonStyle(
-          textStyle: MaterialStateProperty.all(const TextStyle(color: Color.fromARGB(255, 255, 255, 255))),
-          backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 184, 184, 184)),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: () => selectHandler(),
+          style: ButtonStyle(
+            textStyle: MaterialStateProperty.all(const TextStyle(color: Colors.white)),
+            backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 184, 184, 184)),
+          ),
+          child: Text(answerText),
         ),
-        child: Text(answerText),
       ),
     );
   }
@@ -189,10 +182,11 @@ class Answer extends StatelessWidget {
 class Result extends StatelessWidget {
   final int resultScore;
   final Function resetHandler;
+  final int currentLimit;
 
-  const Result(this.resultScore, this.resetHandler, {Key? key}) : super(key: key);
+  const Result(this.resultScore, this.resetHandler, this.currentLimit, {Key? key}) : super(key: key);
 
-  String get resultPhrase {
+String get resultPhrase {
     String resultText;
     if (resultScore >= 100) {
       resultText = 'Perfektne tulemus!';
@@ -230,10 +224,10 @@ class Result extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const PageThirdysix()),
+              MaterialPageRoute(builder: (context) => Division(limit: currentLimit)),
             ),
             child: Container(
-              color: Colors.green,
+                color: Color.fromARGB(255, 72, 255, 0),
               padding: const EdgeInsets.all(14),
               child: const Text(
                 'Proovi uuesti',
@@ -244,10 +238,10 @@ class Result extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const PageOne(addition: true,)),
+              MaterialPageRoute(builder: (context) => const TimesDivided(multibly: false,)),
             ),
             child: Container(
-              color: Colors.green,
+              color: Color.fromARGB(255, 184, 184, 184),
               padding: const EdgeInsets.all(14),
               child: const Text(
                 'Vali uus raskustase',
@@ -258,10 +252,10 @@ class Result extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SecondRoute()),
+              MaterialPageRoute(builder: (context) => const Selection()),
             ),
             child: Container(
-              color: Colors.green,
+              color: const Color.fromARGB(255, 184, 184, 184),
               padding: const EdgeInsets.all(14),
               child: const Text(
                 'Vali uus tehe',
@@ -272,10 +266,10 @@ class Result extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const FirstRoute()),
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
             ),
             child: Container(
-              color: const Color.fromARGB(255, 113, 113, 113),
+              color: Color.fromARGB(255, 255, 0, 0),
               padding: const EdgeInsets.all(14),
               child: const Text(
                 'Välju mängust',

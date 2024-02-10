@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:matemaatik/Liitmine.dart';
-import 'package:matemaatik/main.dart';
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+import 'package:matemaatik/addition_subtraction.dart';
+import 'package:matemaatik/home_screen.dart';
+import 'package:matemaatik/quiz_selection.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: PageEleven(),
-      debugShowCheckedModeBanner: false,
-    );
-  }
-}
-
-class PageEleven extends StatefulWidget {
-  const PageEleven({Key? key}) : super(key: key);
+class Addition extends StatefulWidget {
+  final int limit;
+  const Addition({Key? key, required this.limit}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +14,7 @@ class PageEleven extends StatefulWidget {
   }
 }
 
-class _MyAppState extends State<PageEleven> {
+class _MyAppState extends State<Addition> {
   List<Map<String, Object>> _questions = [];
   var _questionIndex = 0;
   var _totalScore = 0;
@@ -44,34 +35,24 @@ class _MyAppState extends State<PageEleven> {
   }
 
   List<Map<String, Object>> _generateQuestions() {
-  List<Map<String, Object>> questions = [];
+    List<Map<String, Object>> questions = [];
+    for (int i = 1; i <= 10; i++) {
+      int num1 = Random().nextInt(widget.limit);
+      int num2 = Random().nextInt(widget.limit);
+      int answer = num1 + num2;
 
-  for (int i = 1; i <= 10; i++) {
-    int num1 = Random().nextInt(50);
-    int num2 = Random().nextInt(50);
+      List<Map<String, Object>> options = [
+        {'text': (answer - 1).toString(), 'score': 0},
+        {'text': (answer + 1).toString(), 'score': 0},
+        {'text': answer.toString(), 'score': 10},
+        {'text': (answer + 2).toString(), 'score': 0},
+      ];
+      options.shuffle();
 
-    // Ensure num1 is greater than or equal to num2
-    if (num1 < num2) {
-      int temp = num1;
-      num1 = num2;
-      num2 = temp;
-    }
-
-    int answer = num1 - num2;
-
-    List<Map<String, Object>> options = [
-      {'text': (answer - 1).toString(), 'score': 0},
-      {'text': (answer + 1).toString(), 'score': 0},
-      {'text': answer.toString(), 'score': 10},
-      {'text': (answer + 2).toString(), 'score': 0},
-    ];
-
-    options.shuffle();
-
-    Map<String, Object> question = {
-      'questionText': 'Mis on $num1 - $num2?',
-      'answers': options,
-    };
+      Map<String, Object> question = {
+        'questionText': 'Mis on $num1 + $num2?',
+        'answers': options,
+      };
 
       questions.add(question);
     }
@@ -117,7 +98,7 @@ class _MyAppState extends State<PageEleven> {
                 questionIndex: _questionIndex,
                 questions: _questions,
               )
-            : Result(_totalScore, _resetQuiz),
+            : Result(_totalScore, _resetQuiz, widget.limit), // Pass the limit here
       ),
     );
   }
@@ -161,7 +142,7 @@ class Question extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.all(40),
       child: Text(
         questionText,
         style: const TextStyle(fontSize: 28),
@@ -179,15 +160,18 @@ class Answer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () => selectHandler(),
-        style: ButtonStyle(
-          textStyle: MaterialStateProperty.all(const TextStyle(color: Colors.white)),
-          backgroundColor: MaterialStateProperty.all(Colors.green),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: () => selectHandler(),
+          style: ButtonStyle(
+            textStyle: MaterialStateProperty.all(const TextStyle(color: Colors.white)),
+            backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 184, 184, 184)),
+          ),
+          child: Text(answerText),
         ),
-        child: Text(answerText),
       ),
     );
   }
@@ -196,23 +180,24 @@ class Answer extends StatelessWidget {
 class Result extends StatelessWidget {
   final int resultScore;
   final Function resetHandler;
+  final int currentLimit; // Add this variable
 
-  const Result(this.resultScore, this.resetHandler, {Key? key}) : super(key: key);
+  const Result(this.resultScore, this.resetHandler, this.currentLimit, {Key? key}) : super(key: key);
 
-  String get resultPhrase {
+String get resultPhrase {
     String resultText;
-    if (resultScore >= 90) {
-      resultText = 'Väga hea tulemus, jätka samas vaimus!';
+    if (resultScore >= 100) {
+      resultText = 'Perfektne tulemus!';
+      print(resultScore);
+    } else if (resultScore >= 90) {
+      resultText = 'Väga hea tulemus!';
       print(resultScore);
     } else if (resultScore >= 75) {
       resultText = 'Päris hästi!';
-      print(resultScore);
     } else if (resultScore >= 50) {
-      resultText = 'Pead ikka pingutama veel!';
-    } else if (resultScore >= 30) {
-      resultText = 'Kas sa ikka õppisid?';
+      resultText = 'Proovi veel!';
     } else {
-      resultText = 'See pole võimalik!';
+      resultText = 'Kas sa ikka õppisid?';
       print(resultScore);
     }
     return resultText;
@@ -237,10 +222,10 @@ class Result extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const PageEleven()),
+              MaterialPageRoute(builder: (context) => Addition(limit: currentLimit)), // Pass the limit here
             ),
             child: Container(
-              color: Colors.green,
+              color: Color.fromARGB(255, 72, 255, 0),
               padding: const EdgeInsets.all(14),
               child: const Text(
                 'Proovi uuesti',
@@ -251,10 +236,10 @@ class Result extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const PageOne(addition: true,)),
+              MaterialPageRoute(builder: (context) => const PlusMinus(addition: true,)),
             ),
             child: Container(
-              color: Colors.green,
+              color: const Color.fromARGB(255, 184, 184, 184),
               padding: const EdgeInsets.all(14),
               child: const Text(
                 'Vali uus raskustase',
@@ -265,10 +250,10 @@ class Result extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const SecondRoute()),
+              MaterialPageRoute(builder: (context) => const Selection()),
             ),
             child: Container(
-              color: Colors.green,
+              color: const Color.fromARGB(255, 184, 184, 184),
               padding: const EdgeInsets.all(14),
               child: const Text(
                 'Vali uus tehe',
@@ -279,11 +264,11 @@ class Result extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const FirstRoute()),
+              MaterialPageRoute(builder: (context) => const HomeScreen()),
             ),
             child: Container(
-              color: const Color.fromARGB(255, 113, 113, 113),
-              padding: const EdgeInsets.all(14),
+              color: Color.fromARGB(255, 255, 0, 0),
+              padding: const EdgeInsets.all(14), //muuda neid et vahesid suurendada voi vahendada
               child: const Text(
                 'Välju mängust',
                 style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
@@ -295,3 +280,5 @@ class Result extends StatelessWidget {
     );
   }
 }
+
+          
