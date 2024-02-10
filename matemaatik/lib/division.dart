@@ -168,9 +168,9 @@ class Answer extends StatelessWidget {
         width: double.infinity,
         child: ElevatedButton(
           onPressed: () => selectHandler(),
-          style: ButtonStyle(
-            textStyle: MaterialStateProperty.all(const TextStyle(color: Colors.white)),
-            backgroundColor: MaterialStateProperty.all(const Color.fromARGB(255, 184, 184, 184)),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color.fromARGB(255, 184, 184, 184),
+            foregroundColor: Colors.black
           ),
           child: Text(answerText),
         ),
@@ -221,65 +221,121 @@ String get resultPhrase {
             style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
-          TextButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Division(limit: currentLimit)),
-            ),
-            child: Container(
-                color: Color.fromARGB(255, 72, 255, 0),
-              padding: const EdgeInsets.all(14),
-              child: const Text(
-                'Proovi uuesti',
-                style: TextStyle(color: Color.fromARGB(255, 1, 1, 1)),
+
+                    Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: ElevatedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Division(limit: currentLimit)), // Pass the limit here
               ),
+              style: (ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 72, 255, 0),)),
+              child: const Text('Proovi uuesti',
+                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
             ),
           ),
-          TextButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const TimesDivided(multibly: false,)),
-            ),
-            child: Container(
-              color: Color.fromARGB(255, 184, 184, 184),
-              padding: const EdgeInsets.all(14),
-              child: const Text(
-                'Vali uus raskustase',
-                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: ElevatedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TimesDivided(multibly: false,)),
               ),
+              style: (ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 184, 184, 184),)),
+              child: const Text('Vali uus raskustase',
+                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
             ),
           ),
-          TextButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const Selection()),
-            ),
-            child: Container(
-              color: const Color.fromARGB(255, 184, 184, 184),
-              padding: const EdgeInsets.all(14),
-              child: const Text(
-                'Vali uus tehe',
-                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
-              ),
+
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: ElevatedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const Selection()),
+              ),style: (ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 184, 184, 184),)),
+              child: const Text('Vali uus tehe',
+                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
             ),
           ),
-          TextButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            ),
-            child: Container(
-              color: Color.fromARGB(255, 255, 0, 0),
-              padding: const EdgeInsets.all(14),
-              child: const Text(
-                'Välju mängust',
-                style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+
+          Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: ElevatedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
               ),
-            ),
+              style: (ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 0, 0),)),
+              child: const Text('Välju mängust',
+                  style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
+                ),
           ),
-        ],
-      ),
-    );
+            ]
+            )
+          );
   }
 }
+//           TextButton(
+//             onPressed: () => Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => Division(limit: currentLimit)),
+//             ),
+//             child: Container(
+//                 color: Color.fromARGB(255, 72, 255, 0),
+//               padding: const EdgeInsets.all(14),
+//               child: const Text(
+//                 'Proovi uuesti',
+//                 style: TextStyle(color: Color.fromARGB(255, 1, 1, 1)),
+//               ),
+//             ),
+//           ),
+//           TextButton(
+//             onPressed: () => Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => const TimesDivided(multibly: false,)),
+//             ),
+//             child: Container(
+//               color: Color.fromARGB(255, 184, 184, 184),
+//               padding: const EdgeInsets.all(14),
+//               child: const Text(
+//                 'Vali uus raskustase',
+//                 style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+//               ),
+//             ),
+//           ),
+//           TextButton(
+//             onPressed: () => Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => const Selection()),
+//             ),
+//             child: Container(
+//               color: const Color.fromARGB(255, 184, 184, 184),
+//               padding: const EdgeInsets.all(14),
+//               child: const Text(
+//                 'Vali uus tehe',
+//                 style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+//               ),
+//             ),
+//           ),
+//           TextButton(
+//             onPressed: () => Navigator.push(
+//               context,
+//               MaterialPageRoute(builder: (context) => const HomeScreen()),
+//             ),
+//             child: Container(
+//               color: Color.fromARGB(255, 255, 0, 0),
+//               padding: const EdgeInsets.all(14),
+//               child: const Text(
+//                 'Välju mängust',
+//                 style: TextStyle(color: Color.fromARGB(255, 0, 0, 0)),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
