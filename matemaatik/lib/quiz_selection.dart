@@ -12,9 +12,13 @@ class Selection extends StatelessWidget {
   Widget build(BuildContext context) {
      return Scaffold(
       appBar: AppBar(
-        title: const Text('Mida õpime?'),
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        title: const Text(
+          'Mida õpime?',
+          style: TextStyle(color: Colors.white),
+          ),
+         backgroundColor: Colors.grey[900],
       ),
+      backgroundColor: Colors.grey[900],
       body: GridView.count(
       crossAxisCount: 2,
       children: List.generate(pageList.length, (index) {
@@ -30,7 +34,7 @@ class Selection extends StatelessWidget {
                 height: 150,
                 child: Card(
                   elevation: 10,
-                  color: const Color.fromARGB(255, 184, 184, 184),
+                  color: Color.fromARGB(255, 68, 13, 178), //see muudab valiku värve
                   child: Center(
                     child: Stack(
                       children: [

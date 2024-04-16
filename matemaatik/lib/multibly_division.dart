@@ -15,7 +15,16 @@ class TimesDivided extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: multibly ? const Text('Vali raskustase korrutamisele') : const Text('Vali raskustase jagamisele' )),
+      appBar: AppBar(title: multibly ? const Text(
+        'Vali raskustase korrutamisele',
+        style: TextStyle(color: Colors.white),
+        ) 
+        : const Text('Vali raskustase jagamisele',
+         style: TextStyle(color: Colors.white),
+         ),
+         backgroundColor: Colors.grey[900],
+         ), 
+         backgroundColor: Colors.grey[900],//'tegur korrutamiseks'
       body: GridView.count(
         crossAxisCount: 2,
       children: List.generate(multiblyOptions.length, (index) {

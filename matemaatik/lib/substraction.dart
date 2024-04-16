@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'dart:async';
 import 'package:matemaatik/addition_subtraction.dart';
 import 'package:matemaatik/home_screen.dart';
 import 'package:matemaatik/quiz_selection.dart';
@@ -18,6 +19,10 @@ class _MyAppState extends State<Subtraction> {
   List<Map<String, Object>> _questions = [];
   var _questionIndex = 0;
   var _totalScore = 0;
+  var _wrongAnswers = 0;
+  var _isAnswered = false;
+  late Timer _timer;
+  List<IconData?> _progressIcons = List<IconData?>.filled(10, null);
 
   @override
   void initState() {
@@ -25,12 +30,21 @@ class _MyAppState extends State<Subtraction> {
     _resetQuiz();
   }
 
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
   void _resetQuiz() {
     setState(() {
       _questionIndex = 0;
       _totalScore = 0;
+      _wrongAnswers = 0;
+      _isAnswered = false;
       _questions = _generateQuestions();
       _questions = _shuffleQuestions(_questions);
+          _progressIcons = List<IconData?>.filled(10, null);
     });
   }
 
@@ -81,36 +95,71 @@ class _MyAppState extends State<Subtraction> {
   }
 
   void _answerQuestion(int score) {
+      _progressIcons[_questionIndex] = score > 0 ? Icons.check : Icons.close;
     _totalScore += score;
-    setState(() {
-      _questionIndex = _questionIndex + 1;
-    });
-
-    if (_questionIndex < _questions.length) {
-      print('We have more questions!');
-    } else {
-      print('No more questions!');
+    if (score == 0) {
+      _wrongAnswers++;
     }
+        setState(() {
+      _isAnswered = true;
+    });
+    _timer = Timer(const Duration(seconds: 2), () {
+      setState(() {
+        _isAnswered = false;
+        _questionIndex++;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Matemaatik'),
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        title: const Text(
+          'Matemaatik',
+          style: TextStyle(color: Colors.white), // Change app bar text color to white
+        ),
+        backgroundColor: Colors.grey[900], // Change app bar background color to dark grey
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: _questionIndex < _questions.length
-            ? Quiz(
-                answerQuestion: _answerQuestion,
-                questionIndex: _questionIndex,
-                questions: _questions,
-              )
-            : Result(_totalScore, _resetQuiz, widget.limit),
+      body: Container(
+        color: Colors.grey[900], // Change background color to dark grey
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(
+            children: [
+              Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: _progressIcons
+                  .map(
+                    (iconData) => Container(
+                      width: MediaQuery.of(context).size.width / 15,
+                      height: 10,
+                      child: Icon(
+                        iconData,
+                        color: iconData == Icons.check ? Colors.green : Colors.red,
+                      ),
+                    ),
+                  )
+                  .toList(),
+            ),
+            const SizedBox(height: 20), // Spacer
+            _questionIndex < _questions.length
+                ? Quiz(
+                    answerQuestion: _answerQuestion,
+                    questionIndex: _questionIndex,
+                    questions: _questions,
+                    isAnswered: _isAnswered,
+                  )
+                : Result(
+                    _totalScore,
+                    _wrongAnswers,
+                    _resetQuiz,
+                    widget.limit,
+                  ),
+          ],
+        ),
       ),
-    );
+    ));
   }
 }
 
@@ -118,12 +167,14 @@ class Quiz extends StatelessWidget {
   final List<Map<String, Object>> questions;
   final int questionIndex;
   final Function answerQuestion;
+  final bool isAnswered;
 
   const Quiz({
     Key? key,
     required this.questions,
     required this.answerQuestion,
     required this.questionIndex,
+     required this.isAnswered,
   }) : super(key: key);
 
   @override
@@ -136,6 +187,8 @@ class Quiz extends StatelessWidget {
           return Answer(
             () => answerQuestion(answer['score']),
             answer['text'].toString(),
+            answer['score'] as int,
+            isAnswered: isAnswered,
           );
         }).toList(),
       ],
@@ -155,45 +208,83 @@ class Question extends StatelessWidget {
       margin: const EdgeInsets.all(40),
       child: Text(
         questionText,
-        style: const TextStyle(fontSize: 28),
+         style: const TextStyle(fontSize: 28, color: Color.fromARGB(255, 255, 255, 255)),
         textAlign: TextAlign.center,
       ),
     );
   }
 }
 
-class Answer extends StatelessWidget {
+class Answer extends StatefulWidget {
   final Function selectHandler;
   final String answerText;
+  final int score;
+  final bool isAnswered;
 
-  const Answer(this.selectHandler, this.answerText, {Key? key}) : super(key: key);
+    const Answer(
+    this.selectHandler,
+    this.answerText,
+    this.score, {
+    Key? key,
+    required this.isAnswered,
+  }) : super(key: key);
+
+  @override
+  _AnswerState createState() => _AnswerState();
+}
+class _AnswerState extends State<Answer> {
+  Color buttonColor = const Color.fromARGB(255, 184, 184, 184);
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isAnswered) {
+      buttonColor = widget.score > 0 ? Colors.green : Colors.red;
+      _resetColorAfterDelay();
+    } else {
+      buttonColor = const Color.fromARGB(255, 184, 184, 184);
+    }
+
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
-          onPressed: () => selectHandler(),
+          onPressed: () {
+            widget.selectHandler();
+          },
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color.fromARGB(255, 184, 184, 184),
-            foregroundColor: Colors.black
+            backgroundColor: buttonColor,
+            foregroundColor: Colors.black,
           ),
-          child: Text(answerText),
+          child: Text(widget.answerText),
         ),
       ),
     );
+  }
+
+  void _resetColorAfterDelay() {
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        buttonColor = const Color.fromARGB(255, 184, 184, 184);
+      });
+    });
   }
 }
 
 class Result extends StatelessWidget {
   final int resultScore;
+    final int wrongAnswers;
   final Function resetHandler;
   final int currentLimit;
-
-    const Result(this.resultScore, this.resetHandler, this.currentLimit, {Key? key}) : super(key: key);
-
+    
+  const Result(
+    this.resultScore,
+    this.wrongAnswers,
+    this.resetHandler,
+    this.currentLimit, {
+    Key? key,
+  }) : super(key: key);
+  
 String get resultPhrase {
     String resultText;
     if (resultScore >= 100) {
@@ -219,18 +310,21 @@ String get resultPhrase {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(
-            resultPhrase,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+              resultPhrase,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
           ),
           Text(
             'Sinu tulemus ' '$resultScore%',
-            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
             textAlign: TextAlign.center,
           ),
           Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
@@ -243,7 +337,7 @@ String get resultPhrase {
           ),
 
           Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
@@ -256,7 +350,7 @@ String get resultPhrase {
           ),
 
           Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
@@ -268,7 +362,7 @@ String get resultPhrase {
           ),
 
           Padding(
-            padding: const EdgeInsets.all(6.0),
+            padding: const EdgeInsets.all(10.0),
             child: ElevatedButton(
               onPressed: () => Navigator.push(
                 context,

@@ -16,7 +16,17 @@ class PlusMinus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: addition ? const Text('Vali raskustase liitmisele') : const Text('Vali raskustase lahutamisele' )),
+      appBar: AppBar(title: addition ? const Text(
+        'Vali raskustase liitmisele',
+        style: TextStyle(color: Colors.white),
+        )
+        : const Text('Vali raskustase lahutamisele',
+         style: TextStyle(color: Colors.white),
+         ),
+         backgroundColor: Colors.grey[900],
+         
+         ),
+         backgroundColor: Colors.grey[900],
       body: GridView.count(
         crossAxisCount: 2,
       children: List.generate(additionOptions.length, (index) {
@@ -33,7 +43,7 @@ class PlusMinus extends StatelessWidget {
                 height: 100,
                 child: Card(
                   elevation: 10,
-                  color: Color.fromARGB(255, 184, 184, 184),
+                  color: Color.fromARGB(255, 33, 150, 243), //255,33,150,243 see muudab raskustaseme värvi
                   child: Center(
                     child: Stack(
                       children: [

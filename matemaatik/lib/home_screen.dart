@@ -1,13 +1,21 @@
+
 import 'package:flutter/material.dart';
 import 'package:matemaatik/quiz_selection.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Matemaatik')),
+      appBar: AppBar(
+        title: const Text(
+          'Matemaatik',
+          style: TextStyle(color: Colors.white), // Set app bar text color to white
+        ),
+        backgroundColor: Colors.grey[900], // Set app bar background color to dark grey
+      ),
+      backgroundColor: Colors.grey[900], // Set the background color to dark grey
       body: Center(
         child: GestureDetector(
           onTap: () {
@@ -20,7 +28,10 @@ class HomeScreen extends StatelessWidget {
             height: 80,
             child: Card(
               elevation: 10,
-              color: Color.fromARGB(255, 184, 184, 184),
+              shape: BeveledRectangleBorder(
+                borderRadius: BorderRadius.circular(40),
+              ),
+              color: Color.fromARGB(255, 223, 85, 5),
               child: Center(
                 child: Stack(
                   children: [
