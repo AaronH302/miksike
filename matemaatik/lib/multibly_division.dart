@@ -14,20 +14,31 @@ class TimesDivided extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Adjust the width of each grid item based on screen width
+    final itemWidth = screenWidth / 2 - 20; // 20 is the total horizontal padding (10 padding on each side)
+
     return Scaffold(
-      appBar: AppBar(title: multibly ? const Text(
-        'Vali raskustase korrutamisele',
-        style: TextStyle(color: Colors.white),
-        ) 
-        : const Text('Vali raskustase jagamisele',
-         style: TextStyle(color: Colors.white),
-         ),
-         backgroundColor: Colors.grey[900],
-         ), 
-         backgroundColor: Colors.grey[900],//'tegur korrutamiseks'
+      appBar: AppBar(
+        title: multibly
+            ? const Text(
+                'Vali raskustase korrutamisele',
+                style: TextStyle(color: Colors.white),
+              )
+            : const Text(
+                'Vali raskustase jagamisele',
+                style: TextStyle(color: Colors.white),
+              ),
+        backgroundColor: Colors.grey[900],
+      ),
+      backgroundColor: Colors.grey[900],
       body: GridView.count(
         crossAxisCount: 2,
-      children: List.generate(multiblyOptions.length, (index) {
+        childAspectRatio: itemWidth / 145, // Aspect ratio based on item width
+        children: List.generate(
+          multiblyOptions.length,
+          (index) {
         return Card(
             child: GestureDetector(
               onTap: () {

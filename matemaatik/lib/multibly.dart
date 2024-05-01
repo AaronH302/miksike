@@ -224,7 +224,7 @@ class Answer extends StatefulWidget {
 }
 
 class _AnswerState extends State<Answer> {
-  Color buttonColor = const Color.fromARGB(255, 184, 184, 184);
+  Color buttonColor = Color.fromARGB(255, 255, 255, 255);
 
   @override
   Widget build(BuildContext context) {
@@ -246,12 +246,17 @@ class _AnswerState extends State<Answer> {
           style: ElevatedButton.styleFrom(
             backgroundColor: buttonColor,
             foregroundColor: Colors.black,
+            padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30), // Adjust padding here
           ),
-          child: Text(widget.answerText),
+          child: Text(
+            widget.answerText,
+            style: TextStyle(fontSize: 18), // Adjust text size here
+          ),
         ),
       ),
     );
   }
+
 
   void _resetColorAfterDelay() {
     Future.delayed(const Duration(seconds: 2), () {
@@ -319,7 +324,10 @@ class Result extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => Multibly(limit: currentLimit)), // Pass the limit here
               ),
-              style: (ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 72, 255, 0),)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 72, 255, 0),
+                padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30), // Adjust padding here
+              ),
               child: const Text('Proovi uuesti',
                   style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
             ),
@@ -332,7 +340,10 @@ class Result extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => const TimesDivided(multibly: true,)),
               ),
-              style: (ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 184, 184, 184),)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 184, 184, 184),
+                padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30), // Adjust padding here
+              ),
               child: const Text('Vali uus raskustase',
                   style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
             ),
@@ -344,7 +355,11 @@ class Result extends StatelessWidget {
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const Selection()),
-              ),style: (ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 184, 184, 184),)),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 184, 184, 184),
+                padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30), // Adjust padding here
+              ),
               child: const Text('Vali uus tehe',
                   style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
             ),
@@ -357,7 +372,10 @@ class Result extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()),
               ),
-              style: (ElevatedButton.styleFrom(backgroundColor: const Color.fromARGB(255, 255, 0, 0),)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+                padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30), // Adjust padding here
+              ),
               child: const Text('Välju mängust',
                   style: TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
             ),

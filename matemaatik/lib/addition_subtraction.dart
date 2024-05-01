@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:matemaatik/substraction.dart';
 import 'package:matemaatik/addition.dart';
 
-const additionOptions = ['1 - 10', '1 - 20',  '1 - 30', '1 - 50', '1 - 100', '1 - 500', '1 - 1000'];
+const additionOptions = ['1...10', '1...20',  '1...30', '1...50', '1...100', '1...500', '1...1000'];
 
 //TODO PAGE NAVGATION CORRECTION!!!!!
 const additionPages = [Addition(limit:5), Addition(limit:10), Addition(limit:15), Addition(limit:25), Addition(limit:50), Addition(limit:250), Addition(limit:500)];
@@ -15,21 +15,31 @@ class PlusMinus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Adjust the width of each grid item based on screen width
+    final itemWidth = screenWidth / 2 - 20; // 20 is the total horizontal padding (10 padding on each side)
+
     return Scaffold(
-      appBar: AppBar(title: addition ? const Text(
-        'Vali raskustase liitmisele',
-        style: TextStyle(color: Colors.white),
-        )
-        : const Text('Vali raskustase lahutamisele',
-         style: TextStyle(color: Colors.white),
-         ),
-         backgroundColor: Colors.grey[900],
-         
-         ),
-         backgroundColor: Colors.grey[900],
+      appBar: AppBar(
+        title: addition
+            ? const Text(
+                'Vali raskustase liitmisele',
+                style: TextStyle(color: Colors.white),
+              )
+            : const Text(
+                'Vali raskustase lahutamisele',
+                style: TextStyle(color: Colors.white),
+              ),
+        backgroundColor: Colors.grey[900],
+      ),
+      backgroundColor: Colors.grey[900],
       body: GridView.count(
         crossAxisCount: 2,
-      children: List.generate(additionOptions.length, (index) {
+        childAspectRatio: itemWidth / 175, // Aspect ratio based on item width
+        children: List.generate(
+          additionOptions.length,
+          (index) {
         return Card(
             child: GestureDetector(
               onTap: () {

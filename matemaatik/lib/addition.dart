@@ -245,12 +245,17 @@ class _AnswerState extends State<Answer> {
           style: ElevatedButton.styleFrom(
             backgroundColor: buttonColor,
             foregroundColor: Colors.black,
+            padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30), // Adjust padding here
           ),
-          child: Text(widget.answerText),
+           child: Text(
+            widget.answerText,
+            style: TextStyle(fontSize: 18), // Adjust text size here
+          ),
         ),
       ),
     );
   }
+
 
   void _resetColorAfterDelay() {
     Future.delayed(const Duration(seconds: 2), () {
@@ -260,6 +265,7 @@ class _AnswerState extends State<Answer> {
     });
   }
 }
+
 
 class Result extends StatelessWidget {
   final int resultScore;
@@ -298,7 +304,7 @@ class Result extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(10.0),
             child: Text(
               resultPhrase,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white), // White text color
@@ -311,7 +317,7 @@ class Result extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0), // Increased padding here
             child: ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
@@ -321,6 +327,7 @@ class Result extends StatelessWidget {
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 72, 255, 0),
+                padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30), // Adjust padding here
               ),
               child: const Text(
                 'Proovi uuesti',
@@ -329,7 +336,7 @@ class Result extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0), // Increased padding here
             child: ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
@@ -339,6 +346,7 @@ class Result extends StatelessWidget {
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 184, 184, 184),
+                padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30), // Adjust padding here
               ),
               child: const Text(
                 'Vali uus raskustase',
@@ -347,7 +355,7 @@ class Result extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0), // Increased padding here
             child: ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
@@ -357,6 +365,7 @@ class Result extends StatelessWidget {
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 184, 184, 184),
+                padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30), // Adjust padding here
               ),
               child: const Text(
                 'Vali uus tehe',
@@ -365,7 +374,7 @@ class Result extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0), // Increased padding here
             child: ElevatedButton(
               onPressed: () => Navigator.push(
                 context,
@@ -375,6 +384,7 @@ class Result extends StatelessWidget {
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+                padding: EdgeInsets.symmetric(vertical: 25, horizontal: 30), // Adjust padding here
               ),
               child: const Text(
                 'Välju mängust',
