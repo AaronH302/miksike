@@ -241,7 +241,7 @@ class _AnswerState extends State<Answer> {
       buttonColor = widget.score > 0 ? Colors.green : Colors.red;
       _resetColorAfterDelay();
     } else {
-      buttonColor = const Color.fromARGB(255, 184, 184, 184);
+      buttonColor = Color.fromARGB(255, 255, 255, 255);
     }
 
     return Padding(

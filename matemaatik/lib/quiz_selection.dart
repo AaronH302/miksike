@@ -34,7 +34,7 @@ class Selection extends StatelessWidget {
                 height: 150,
                 child: Card(
                   elevation: 10,
-                  color: Color.fromARGB(255, 68, 13, 178), //see muudab valiku värve
+                  color: Color.fromARGB(255, 0, 179, 255), //see muudab valiku värve
                   child: Center(
                     child: Stack(
                       children: [

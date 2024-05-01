@@ -43,7 +43,7 @@ class PlusMinus extends StatelessWidget {
                 height: 100,
                 child: Card(
                   elevation: 10,
-                  color: Color.fromARGB(255, 33, 150, 243), //255,33,150,243 see muudab raskustaseme värvi
+                  color: Color.fromARGB(255, 41, 187, 16), //255,33,150,243 see muudab raskustaseme värvi
                   child: Center(
                     child: Stack(
                       children: [

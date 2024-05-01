@@ -40,7 +40,7 @@ class TimesDivided extends StatelessWidget {
                 height: 100,
                 child: Card(
                   elevation: 10,
-                  color: Color.fromARGB(255, 184, 184, 184),
+                  color: Color.fromARGB(255, 41, 187, 16),
                   child: Center(
                     child: Stack(
                       children: [

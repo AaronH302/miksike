@@ -31,7 +31,7 @@ class HomeScreen extends StatelessWidget {
               shape: BeveledRectangleBorder(
                 borderRadius: BorderRadius.circular(40),
               ),
-              color: Color.fromARGB(255, 223, 85, 5),
+              color: Color.fromARGB(255, 255, 255, 255),
               child: Center(
                 child: Stack(
                   children: [
