@@ -74,7 +74,7 @@ class _MyAppState extends State<Subtraction> {
     options.shuffle();
 
     Map<String, Object> question = {
-      'questionText': 'Mis on $num1 - $num2?',
+      'questionText': 'Kui palju on $num1 - $num2?',
       'answers': options,
     };
 

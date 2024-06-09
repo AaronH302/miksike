@@ -24,11 +24,11 @@ class PlusMinus extends StatelessWidget {
       appBar: AppBar(
         title: addition
             ? const Text(
-                'Vali raskustase liitmisele',
+                'Mis piires liidame?',
                 style: TextStyle(color: Colors.white),
               )
             : const Text(
-                'Vali raskustase lahutamisele',
+                'Mis piires lahutame?',
                 style: TextStyle(color: Colors.white),
               ),
         backgroundColor: Colors.grey[900],

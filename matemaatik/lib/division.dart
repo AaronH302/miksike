@@ -67,7 +67,7 @@ class _MyAppState extends State<Division> {
       options.shuffle();
 
       Map<String, Object> question = {
-        'questionText': 'Mis on $dividend ÷ $divisor?',
+        'questionText': 'Kui palju on $dividend ÷ $divisor?',
         'answers': options,
       };
 

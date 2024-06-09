@@ -67,7 +67,7 @@ class _MyAppState extends State<Multibly> {
       options.shuffle();
 
       Map<String, Object> question = {
-        'questionText': 'Mis on $num1 x $num2?',
+        'questionText': 'Kui palju on $num1 x $num2?',
         'answers': options,
       };
 

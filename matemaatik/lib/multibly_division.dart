@@ -23,11 +23,11 @@ class TimesDivided extends StatelessWidget {
       appBar: AppBar(
         title: multibly
             ? const Text(
-                'Vali raskustase korrutamisele',
+                'Vali tegur',
                 style: TextStyle(color: Colors.white),
               )
             : const Text(
-                'Vali raskustase jagamisele',
+                'Vali jagaja',
                 style: TextStyle(color: Colors.white),
               ),
         backgroundColor: Colors.grey[900],
